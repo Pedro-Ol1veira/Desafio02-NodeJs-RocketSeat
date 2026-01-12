@@ -8,12 +8,12 @@ Desafio 02 do curso de nodeJs da rocketSeat
         - email
         - weight
     - [x] Put the user id on a cookie
-    - [ ] Regiter a meal ('/meals')
+    - [x] Regiter a meal ('/meals')
         - name
         - description
         - Date and Time
         - onDiet
-    - [ ] Edit a meal ('/meals')
+    - [X] Edit a meal ('/meals')
     - [ ] Delete a meal ('/meals')
     - [ ] List all user meals ('/meals')
     - [ ] List a unique meal ('/meals/:id')

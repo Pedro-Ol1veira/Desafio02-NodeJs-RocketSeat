@@ -12,21 +12,27 @@ export async function mealsRoutes(app: FastifyInstance) {
       description: z.string(),
     });
 
-    const { name, description } = createMealSchema.parse(
-      request.body
-    );
+    const { name, description } = createMealSchema.parse(request.body);
 
     const newMeal = {
-        id: randomUUID(),
-        user_id: sessionId,
-        description,
-        name,
-        dateTime: Date.now(),
-        onDiet: true
+      id: randomUUID(),
+      user_id: sessionId,
+      description,
+      name,
+      dateTime: Date.now(),
+      onDiet: true,
     };
 
-    await knex('meals').insert(newMeal);
+    await knex("meals").insert(newMeal);
 
     reply.status(201).send();
+  });
+
+  app.get("/", async (request, reply) => {
+    const sessionId = request.cookies.sessionId;
+
+    const meals = await knex("meals").where("user_id", sessionId).select();
+
+    return { meals };
   });
 }
