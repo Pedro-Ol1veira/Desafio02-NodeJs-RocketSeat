@@ -14,7 +14,7 @@ Desafio 02 do curso de nodeJs da rocketSeat
         - Date and Time
         - onDiet
     - [ ] Edit a meal ('/meals')
-    - [ ] Delete a meal ('/meals')
+    - [x] Delete a meal ('/meals')
     - [x] List all user meals ('/meals')
     - [x] List a unique meal ('/meals/:id')
     - [ ] User summary ('/meals/summary')
