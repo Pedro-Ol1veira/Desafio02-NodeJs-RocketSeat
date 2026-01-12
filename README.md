@@ -3,6 +3,10 @@ Desafio 02 do curso de nodeJs da rocketSeat
 
 # Todo
     - [ ] Create new user ('/users')
+        - id
+        - name
+        - email
+        - weight
     - [ ] Put the user id on a cookie
     - [ ] Regiter a meal ('/meals')
         - name
