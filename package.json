@@ -1,0 +1,28 @@
+{
+  "name": "desafio02-nodejs-rocketseat",
+  "version": "1.0.0",
+  "description": "Desafio 02 do curso de nodeJs da rocketSeat",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pedro-Ol1veira/Desafio02-NodeJs-RocketSeat.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Pedro-Ol1veira/Desafio02-NodeJs-RocketSeat/issues"
+  },
+  "homepage": "https://github.com/Pedro-Ol1veira/Desafio02-NodeJs-RocketSeat#readme",
+  "devDependencies": {
+    "@types/node": "^25.0.6",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@fastify/cookie": "^11.0.2",
+    "fastify": "^5.6.2"
+  }
+}
