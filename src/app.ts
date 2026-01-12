@@ -9,7 +9,6 @@ export const app = fastify();
 app.register(cookies);
 
 app.register(mealsRoutes, {
-    preHander: [checkSessionId],
     prefix: 'meals'
 });
 

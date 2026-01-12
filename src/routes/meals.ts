@@ -2,8 +2,11 @@ import type { FastifyInstance } from "fastify";
 import { knex } from "../database.js";
 import { z } from "zod";
 import { randomUUID } from "node:crypto";
+import { checkSessionId } from "../middlewares/check-sessionId.js";
 
 export async function mealsRoutes(app: FastifyInstance) {
+    app.addHook('onRequest', checkSessionId);
+    
   app.post("/", async (request, reply) => {
     const sessionId = request.cookies.sessionId;
 
@@ -35,4 +38,23 @@ export async function mealsRoutes(app: FastifyInstance) {
 
     return { meals };
   });
+
+  app.get('/:id', async (request, reply) => {
+    const sessionId = request.cookies.sessionId;
+
+    const getParamsData = z.object({
+        id: z.uuid()
+    });
+    
+    const { id } = getParamsData.parse(request.params);
+    const meal = await knex('meals').where('id', id).select().first();
+
+    if(meal.user_id != sessionId) {
+        return reply.status(401).send({
+            error: "Unauthorized"
+        });
+    }
+
+    return { meal }
+  })
 }
