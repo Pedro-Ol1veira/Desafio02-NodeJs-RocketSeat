@@ -3,6 +3,7 @@ import { knex } from "../database.js";
 import { z } from "zod";
 import { randomUUID } from "node:crypto";
 import { checkSessionId } from "../middlewares/check-sessionId.js";
+import { request } from "node:http";
 
 export async function mealsRoutes(app: FastifyInstance) {
     app.addHook('onRequest', checkSessionId);
@@ -56,5 +57,32 @@ export async function mealsRoutes(app: FastifyInstance) {
     }
 
     return { meal }
-  })
+  });
+
+  app.delete('/:id', async (request, reply) => {
+    const sessionId = request.cookies.sessionId;
+
+    const getParamsData = z.object({
+      id: z.uuid()
+    });
+
+    const {id} = getParamsData.parse(request.params);
+    const meal = await knex('meals').where('id', id).select().first();
+
+    if(!meal) {
+      return reply.status(404).send({
+        error: "Meal Not Found"
+      })
+    }
+
+    if(meal.user_id != sessionId) {
+      return reply.status(401).send({
+            error: "Unauthorized"
+      });
+    }
+
+    await knex('meals').where('id', id).first().del();
+
+    return reply.status(204).send();
+  });
 }
