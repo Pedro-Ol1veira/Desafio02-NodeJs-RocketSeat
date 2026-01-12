@@ -86,4 +86,43 @@ export async function mealsRoutes(app: FastifyInstance) {
 
     return reply.status(204).send();
   });
+
+  app.put('/:id', async (request, reply) => {
+    const sessionId = request.cookies.sessionId;
+
+    const updateMealSchema = z.object({
+      name: z.string(),
+      description: z.string(),
+      onDiet: z.boolean()
+    });
+
+    const body = updateMealSchema.parse(request.body);
+
+    const getParamsData = z.object({
+      id: z.uuid()
+    });
+
+    const { id } = getParamsData.parse(request.params);
+    const meal = await knex('meals').where('id', id).select().first();
+
+    if(!meal) {
+      return reply.status(404).send({
+        error: "Meal Not Found"
+      })
+    }
+
+    if(meal.user_id != sessionId) {
+      return reply.status(401).send({
+            error: "Unauthorized"
+      });
+    }
+
+    await knex('meals').where('id', id).first().update({
+      name: body.name,
+      description: body.description,
+      onDiet: body.onDiet
+    });
+
+    return reply.status(204).send();
+  });
 }
