@@ -17,7 +17,7 @@ Desafio 02 do curso de nodeJs da rocketSeat
     - [x] Delete a meal ('/meals')
     - [x] List all user meals ('/meals')
     - [x] List a unique meal ('/meals/:id')
-    - [ ] User summary ('/meals/summary')
+    - [x] User summary ('/meals/summary')
         - [x] Meals qty
         - [x] Meals onDiet/offDiet
-        - [ ] Best strike
+        - [x] Best strike on diet

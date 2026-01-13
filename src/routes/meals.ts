@@ -6,7 +6,7 @@ import { checkSessionId } from "../middlewares/check-sessionId.js";
 import { request } from "node:http";
 
 export async function mealsRoutes(app: FastifyInstance) {
-    app.addHook('onRequest', checkSessionId);
+  app.addHook('onRequest', checkSessionId);
     
   app.post("/", async (request, reply) => {
     const sessionId = request.cookies.sessionId;
@@ -28,6 +28,24 @@ export async function mealsRoutes(app: FastifyInstance) {
       onDiet
     };
 
+    const user = await knex('users').where('id', sessionId).select('lastMealState', 'bestStrike').first();
+
+    let strike = parseInt(request.cookies.strike ?? '0');
+    if(user.lastMealState && onDiet) {
+      strike++;
+      reply.cookie('strike', String(strike) ,{
+        path: '/'
+      });
+    } else if(onDiet) {
+      reply.cookie('strike', '1', {
+        path: '/'
+      })
+    }
+    await knex('users').where('id', sessionId).first().update({lastMealState: onDiet});
+    if(user.bestStrike < strike) {
+      await knex('users').where('id', sessionId).first().update({bestStrike: strike});
+    }
+    
     await knex("meals").insert(newMeal);
 
     reply.status(201).send();
@@ -137,8 +155,8 @@ export async function mealsRoutes(app: FastifyInstance) {
       onDiet: false
     }));
     const qty = onDiet.length + offDiet.length;
+    const bestStrike = (await knex('users').where('id', sessionId).select('bestStrike').first()).bestStrike;
     
-    return { qty, onDiet, offDiet }
-
+    return { qty, onDiet, offDiet, bestStrike }
   });
 }
