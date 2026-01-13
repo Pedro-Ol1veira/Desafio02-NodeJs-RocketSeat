@@ -125,4 +125,20 @@ export async function mealsRoutes(app: FastifyInstance) {
 
     return reply.status(204).send();
   });
+
+  app.get('/summary', async (request, reply) => {
+    const { sessionId } = request.cookies;
+    const onDiet = (await knex('meals').where({
+      user_id: sessionId,
+      onDiet: true
+    }));
+    const offDiet = (await knex('meals').where({
+      user_id: sessionId,
+      onDiet: false
+    }));
+    const qty = onDiet.length + offDiet.length;
+    
+    return { qty, onDiet, offDiet }
+
+  });
 }

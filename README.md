@@ -13,11 +13,11 @@ Desafio 02 do curso de nodeJs da rocketSeat
         - description
         - Date and Time
         - onDiet
-    - [ ] Edit a meal ('/meals')
+    - [x] Edit a meal ('/meals')
     - [x] Delete a meal ('/meals')
     - [x] List all user meals ('/meals')
     - [x] List a unique meal ('/meals/:id')
     - [ ] User summary ('/meals/summary')
-        - [ ] Meals qty
-        - [ ] Meals onDiet/offDiet
+        - [x] Meals qty
+        - [x] Meals onDiet/offDiet
         - [ ] Best strike
